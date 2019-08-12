@@ -2573,23 +2573,12 @@ SQL;
         $this->assertEquals(['foo', 'bar'], $builder->getBindings());
     }
 
-    public function testProvidingNullWithOperatorsBuildsCorrectly()
+    public function testNotProvidingValuesBuildsCorrectly()
     {
         $builder = $this->getBuilder();
-        $builder->select('*')->from('users')->where('foo', null);
-        $this->assertEquals('select * from "users" where "foo" is null', $builder->toSql());
-
-        $builder = $this->getBuilder();
-        $builder->select('*')->from('users')->where('foo', '=', null);
-        $this->assertEquals('select * from "users" where "foo" is null', $builder->toSql());
-
-        $builder = $this->getBuilder();
-        $builder->select('*')->from('users')->where('foo', '!=', null);
-        $this->assertEquals('select * from "users" where "foo" is not null', $builder->toSql());
-
-        $builder = $this->getBuilder();
-        $builder->select('*')->from('users')->where('foo', '<>', null);
-        $this->assertEquals('select * from "users" where "foo" is not null', $builder->toSql());
+        $builder->select('*')->from('users')->where('foo');
+        $this->assertEquals('select * from "users" where "foo" = ?', $builder->toSql());
+        $this->assertEquals([true], $builder->getBindings());
     }
 
     public function testDynamicWhere()

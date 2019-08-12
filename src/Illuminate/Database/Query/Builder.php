@@ -642,7 +642,7 @@ class Builder
         // where null clause to the query. So, we will allow a short-cut here to
         // that method for convenience so the developer doesn't have to check.
         if (is_null($value)) {
-            return $this->whereNull($column, $boolean, $operator !== '=');
+            return $this->where($column, $operator, true);
         }
 
         $type = 'Basic';
